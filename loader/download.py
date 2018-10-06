@@ -1,50 +1,7 @@
-from clint import arguments
-from pytube import YouTube
-
-from clint.textui import puts, indent, colored, columns
-
-import csv
-import re
 import os
 
-# Dont hate me
-import ssl
-ssl._create_default_https_context = ssl._create_stdlib_context
-
-def main():
-    # Get first argument passed
-    # Argument should be the path to the csv file
-    args = arguments.Args()
-    filePath = args.get(0)
-
-    if filePath:
-        try:
-            with open(filePath, newline='') as csvFile:
-                csvObject = csv.reader(csvFile, delimiter=',')
-
-                for row in csvObject:
-                    # Get URL
-                    # Check that the URL contains correct domain, otherwise add it
-                    urlRegex = r"v=([^&]+)"
-                    YouTubeURL = "https://www.youtube.com/watch?v="
-                    match = re.search(urlRegex, row[0])
-                    if match:
-                        videoRef = match.group(1)
-                    else:
-                        videoRef = row[0]
-
-                    videoURL = YouTubeURL + videoRef
-
-                    try:
-                        downloadVideo(videoURL, videoRef, row)
-                    except Exception as e:
-                        puts(colored.red('Error: ')+e)
-
-        except IOError as e:
-            puts(colored.red('Error: ') + 'File does not exist or you do not have permission to access it.')
-
-    else:
-        puts(colored.red('ERROR: ') + 'No file path specified.')
+from clint.textui import puts, indent, columns, colored
+from pytube import YouTube
 
 def drawProgressBar(stream=None, chunk=None, file_handle=None, remaining=None):
     file_size = stream.filesize
@@ -61,7 +18,6 @@ def drawProgressBar(stream=None, chunk=None, file_handle=None, remaining=None):
 
 def downloadVideo(videoURL, videoRef, row):
     # Create YouTube video object
-    text = "a string"
     video = YouTube(videoURL, on_progress_callback=drawProgressBar)
 
     # Work out new title
@@ -124,7 +80,3 @@ def downloadVideo(videoURL, videoRef, row):
                 [videoPath[:48], 50],
                 [colored.red('ERROR'), 50]
             ))
-
-# Run
-if __name__ == '__main__':
-    main()
