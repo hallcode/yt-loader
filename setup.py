@@ -12,7 +12,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'yt-loader = loader.loader:main'
+            'yt-loader = loader.cli:main'
         ]
     }
 )
