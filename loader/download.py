@@ -1,7 +1,7 @@
 import os
 
 from clint.textui import puts, indent, columns, colored
-from pytube import YouTube
+from pytube import YouTube, exceptions
 
 def drawProgressBar(stream=None, chunk=None, file_handle=None, remaining=None):
     file_size = stream.filesize
@@ -18,7 +18,24 @@ def drawProgressBar(stream=None, chunk=None, file_handle=None, remaining=None):
 
 def downloadVideo(videoURL, videoRef, row):
     # Create YouTube video object
-    video = YouTube(videoURL, on_progress_callback=drawProgressBar)
+    try:
+        video = YouTube(videoURL, on_progress_callback=drawProgressBar)
+    except Exception as e:
+        if row[3] != '':
+            videoTitle = row[3]
+        else:
+            videoTitle = 'Unable to read video title'
+
+        # Print error line
+        with indent(4):
+            puts('\r', '')
+            puts(columns(
+                [colored.blue(videoRef), 14],
+                [videoTitle[:48], 50],
+                [colored.red('ERROR: Invalid URL'), 50]
+            ))
+
+        return False
 
     # Work out new title
     if row[3] != '':
@@ -71,12 +88,12 @@ def downloadVideo(videoURL, videoRef, row):
                 [size, 11],
                 [colored.green('DONE'), 20]
             ))
-    except FileNotFoundError as e:
+    except Exception as e:
         # Print error line
         with indent(4):
             puts('\r', '')
             puts(columns(
                 [colored.blue(videoRef), 14],
                 [videoPath[:48], 50],
-                [colored.red('ERROR'), 50]
+                [colored.red('ERROR: Unable to download video'), 50]
             ))

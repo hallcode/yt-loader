@@ -3,3 +3,5 @@ example.csv
 .DS_Store
 __pycache__/
 ytloader/
+dist/
+YouTube_Loader.egg-info/

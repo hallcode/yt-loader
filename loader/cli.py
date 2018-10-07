@@ -39,6 +39,6 @@ def main(csv_path):
             try:
                 downloadVideo(videoURL, videoRef, row)
             except Exception as e:
-                click.secho('Error: '+e, fg="red")
+                click.secho('Error: '+e.message, fg="red")
 
     return None

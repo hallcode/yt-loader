@@ -45,4 +45,4 @@ Installation
 You should be able to download the script using PIP:
 ``pip install yt-loader``
 
-Eventually I plan to make the script available via homebrew too, but beyond that you would have to download the source.
+Eventually I plan to make the script available via Homebrew too, but beyond that you would have to download the source.
