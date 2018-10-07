@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='YouTube-Loader',
+    name='yt-loadert',
     description='Download tool for multiple YouTube videos.',
     author='Alex Hall',
     author_email='alexhall93@me.com',
