@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='YouTube-Loader',
+    name='YouTubppie-Loader',
     description='Download tool for multiple YouTube videos.',
     author='Alex Hall',
     author_email='alexhall93@me.com',
-    version=0.2,
+    version=0.3,
     url='https://github.com/hallcode/yt-loader',
     packages=find_packages(),
     python_requires='>=3',
@@ -13,7 +13,7 @@ setup(
     install_requires=[
         'click',
         'clint',
-        'pytube'
+        'pytube3'
     ],
     entry_points={
         'console_scripts': [

@@ -1,5 +1,5 @@
 import click, csv, re
-from .download import downloadVideo
+from .download import download_video
 
 # Dont hate me
 import ssl
@@ -15,29 +15,29 @@ def main(csv_path):
 
     /b
     [0] YouTube URL (or video hash)
-    [1] options (see README)
-    [2] output sub-directory
+    [1] output sub-directory
+    [2] options (see README)
     [3] Output filename
     """
     with open(csv_path, newline='') as csvFile:
-        csvObject = csv.reader(csvFile, delimiter=',')
+        csv_object = csv.reader(csvFile, delimiter=',')
 
-        for row in csvObject:
+        for row in csv_object:
             # Get URL
             # Check that the URL contains correct domain, otherwise add it
-            urlRegex = r"v=([^&]+)"
-            YouTubeURL = "https://www.youtube.com/watch?v="
-            match = re.search(urlRegex, row[0])
+            url_regex = r"v=([^&]+)"
+            youtube_url = "https://youtu.be/"
+            match = re.search(url_regex, row[0])
 
             if match:
-                videoRef = match.group(1)
+                video_ref = match.group(1)
             else:
-                videoRef = row[0]
+                video_ref = row[0]
 
-            videoURL = YouTubeURL + videoRef
+            video_url = youtube_url + video_ref
 
             try:
-                downloadVideo(videoURL, videoRef, row)
+                download_video(video_url, video_ref, row)
             except Exception as e:
                 click.secho('Error: '+e.message, fg="red")
 
